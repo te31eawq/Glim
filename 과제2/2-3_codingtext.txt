@@ -1,0 +1,94 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+
+int solution(int a, int b, int c, int d) {
+    
+    int save[4] = {a,b,c,d}; // 5,4,5,6
+    int save1 = 0;
+    int save2 = 0;
+    int lastcount = 7;
+    int count[7] = {0};
+    int answer = 0;
+    
+    for(int i =0; i<4 ; i++)
+    {
+        count[save[i]]++;
+    }
+    
+    for(int i=0; i<sizeof(count); i++) // 4개
+    {
+        if(count[i] == 4)
+        {
+            answer = 1111 * i;
+            return answer;
+        }
+    }
+    
+    for(int i=0; i<sizeof(count); i++) // 3개 1개
+    {
+        if(count[i] == 3)
+        {
+            for(int j=0;j<sizeof(count);j++)
+            {
+                if(count[j] == 1)
+                {
+                    answer = (10*i+j)*(10*i+j);
+                    return answer;
+                }
+            }
+        }
+    }
+    
+    for(int i=0; i<sizeof(count); i++) // 2개 2개
+    {
+        if(count[i] == 2)
+        {
+            for(int j=0;j<sizeof(count);j++)
+            {
+                if(i != j && count[j] == 2)
+                {
+                    answer = (i+j) * abs(i-j);
+                    return answer;
+                }
+            }
+        }
+    }
+    
+    for(int i=0; i<sizeof(count); i++) // 2개 1개 1개
+    {
+        if(count[i] == 2)
+        {
+            for(int j=0 ; j<sizeof(count);j++)
+            {
+                if(count[j] == 1)
+                {
+                    if(save1 == 0)
+                    {
+                        save1 = j;
+                    }
+                    else
+                    {
+                        save2 = j;
+                        answer = save1*save2;
+                        return answer;
+                    }
+                }
+            }
+        }
+    }
+
+    
+    for(int i=0; i<sizeof(count) ; i++) // 다 다름
+    {
+        if(count[i] == 1)
+        {
+            if(lastcount > i)
+            {
+                lastcount = i;
+            }
+        }
+    }
+    answer = lastcount;
+    return answer;
+}
